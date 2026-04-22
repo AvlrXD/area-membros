@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+{% block title %}{{ course['title'] }} • Tera Copy{% endblock %}
+{% block content %}
+<div class="topbar">
+    <div>
+        <h1>{{ course['title'] }}</h1>
+        <p>{{ course['description'] if course['description'] else 'Esse curso está pronto para receber um posicionamento mais forte, com descrição clara, módulos separados e consumo visual premium.' }}</p>
+    </div>
+    <div class="topbar-actions">
+        <a href="/modules/create/{{ course['id'] }}" class="btn-main">Adicionar módulo</a>
+        <a href="/courses/edit/{{ course['id'] }}" class="btn-ghost">Editar curso</a>
+    </div>
+</div>
+
+<div class="modules-shell">
+    <aside class="module-sidebar">
+        <span class="hero-kicker">Mapa do curso</span>
+        <h2 class="panel-title" style="margin-top:10px;">Módulos e aulas</h2>
+        <p class="panel-subtitle">Ao entrar, o aluno enxerga tudo separado. Isso aumenta clareza, valor percebido e vontade de consumir.</p>
+
+        <div class="hero-stats" style="margin-top:18px;">
+            <div class="stat-chip" style="min-width:unset;flex:1;">
+                <span>Total de módulos</span>
+                <strong>{{ modules|length }}</strong>
+            </div>
+        </div>
+
+        <div class="module-nav">
+            {% if modules %}
+                {% for module in modules %}
+                <div class="module-nav-card">
+                    <strong>{{ loop.index }}. {{ module['title'] }}</strong>
+                    <span>{% if module['youtube_url'] %}Com vídeo{% else %}Sem vídeo{% endif %} • Aula separada e organizada</span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="module-nav-card">
+                    <strong>Nenhum módulo ainda</strong>
+                    <span>Crie o primeiro para começar a estruturar o curso.</span>
+                </div>
+            {% endif %}
+        </div>
+    </aside>
+
+    <section class="lesson-list">
+        {% if modules %}
+            {% for module in modules %}
+            <article class="lesson-card">
+                <div class="lesson-head">
+                    <div style="display:flex;gap:16px;align-items:flex-start;">
+                        <div class="lesson-number">{{ loop.index }}</div>
+                        <div class="lesson-title-wrap">
+                            <h3>{{ module['title'] }}</h3>
+                            <p>{{ module['content'][:140] ~ ('...' if module['content'] and module['content']|length > 140 else '') if module['content'] else 'Adicione uma descrição estratégica dessa aula para orientar o aluno.' }}</p>
+                            <div class="lesson-tags">
+                                <span class="tag">Módulo {{ loop.index }}</span>
+                                <span class="tag">{% if module['youtube_url'] %}Vídeo incorporado{% else %}Sem vídeo{% endif %}</span>
+                                <span class="tag">Experiência premium</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <a class="btn-soft" href="/modules/edit/{{ module['id'] }}">Editar aula</a>
+                    </div>
+                </div>
+
+                <div class="lesson-layout">
+                    <div class="lesson-thumb">
+                        {% if module['image_path'] %}
+                        <img src="/static/{{ module['image_path'] }}" alt="{{ module['title'] }}">
+                        {% else %}
+                        <div style="width:100%;height:100%;display:grid;place-items:center;padding:24px;text-align:center;font-size:22px;font-weight:800;">Aula {{ loop.index }}<br><span style="font-size:14px;font-weight:600;color:#d3d7f9;">Imagem de destaque</span></div>
+                        {% endif %}
+                    </div>
+                    <div class="lesson-content">{{ module['content'] if module['content'] else 'Escreva aqui um resumo do conteúdo, exercícios, notas e direcionamentos da aula para deixar o aluno contextualizado antes ou depois do vídeo.' }}</div>
+                </div>
+
+                {% if module['youtube_url'] %}
+                {% set vid = module['youtube_url']|youtube_embed %}
+                {% if vid %}
+                <div class="video-box">
+                    <div class="ratio">
+                        <iframe src="https://www.youtube.com/embed/{{ vid }}" title="{{ module['title'] }}" allowfullscreen></iframe>
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+            </article>
+            {% endfor %}
+        {% else %}
+        <div class="empty-state">
+            <strong>Curso sem módulos por enquanto</strong>
+            Adicione aulas para que o aluno já entre e veja a estrutura do curso pronta, separada e profissional.
+            <div style="margin-top:18px;"><a class="btn-main" href="/modules/create/{{ course['id'] }}">Criar primeiro módulo</a></div>
+        </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+{% block title %}{% if course %}Editar curso{% else %}Novo curso{% endif %} • Tera Copy{% endblock %}
+{% block content %}
+<div class="form-shell">
+    <div class="topbar" style="margin-bottom:20px;">
+        <div>
+            <h1>{% if course %}Editar curso{% else %}Criar novo curso{% endif %}</h1>
+            <p>Defina um título forte, uma descrição estratégica e uma capa com aparência premium para o aluno bater o olho e sentir valor.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <form method="POST" enctype="multipart/form-data" class="form-grid">
+            <div class="field">
+                <label for="title">Título do curso</label>
+                <input type="text" id="title" name="title" value="{{ course['title'] if course else '' }}" placeholder="Ex.: Tera Copy • Método Completo" required>
+            </div>
+
+            <div class="field">
+                <label for="description">Descrição</label>
+                <textarea id="description" name="description" placeholder="Explique o que o aluno vai aprender e por que esse conteúdo é valioso.">{{ course['description'] if course else '' }}</textarea>
+            </div>
+
+            <div class="field">
+                <label for="cover_image">Imagem de capa</label>
+                {% if course and course['cover_image'] %}
+                <div class="current-image" style="margin-bottom:14px;">
+                    <img src="/static/{{ course['cover_image'] }}" alt="Imagem atual">
+                </div>
+                {% endif %}
+                <input type="file" id="cover_image" name="cover_image" accept="image/*">
+                <div class="file-tip">Use uma imagem forte e limpa. Ela vai aparecer na vitrine do curso.</div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-main">Salvar curso</button>
+                <a href="/dashboard" class="btn-ghost">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

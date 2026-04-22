@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block title %}Entrar • Tera Copy{% endblock %}
+{% block auth_content %}
+<div class="auth-shell">
+    <section class="auth-left">
+        <div>
+            <div class="auth-brand">
+                <img src="/static/logo.png" alt="Tera Copy">
+                <div>
+                    <div class="brand-kicker">Acesso exclusivo</div>
+                    <div class="brand-title">Tera Copy</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-copy">
+            <span class="hero-kicker">Método + biblioteca de aulas</span>
+            <h1>Entre e acesse seus módulos com visual premium.</h1>
+            <p>Uma área de membros pensada para parecer produto sério: organizada, responsiva, com aulas separadas, vídeos incorporados e estrutura limpa para o aluno consumir sem ruído.</p>
+            <div class="auth-bullets">
+                <div>Sidebar profissional com organização dos conteúdos</div>
+                <div>Módulos separados e prontos para vídeos do YouTube</div>
+                <div>Experiência forte no desktop e no celular</div>
+            </div>
+        </div>
+
+        <div style="color:var(--muted-2);font-size:13px;">Tera Copy • Plataforma de conteúdo e execução</div>
+    </section>
+
+    <section class="auth-right">
+        <div class="login-card">
+            <span class="hero-kicker">Entrar na plataforma</span>
+            <h2>Bem-vindo de volta</h2>
+            <p>Use seu login para entrar na área e acessar todas as aulas e módulos do curso.</p>
+
+            <div class="login-info">
+                <strong style="display:block;margin-bottom:6px;">Acesso padrão inicial</strong>
+                Usuário: <strong>admin</strong> • Senha: <strong>myaccess123</strong>
+            </div>
+
+            <form method="POST" action="/login" class="form-grid" style="margin-top:20px;">
+                {% if error %}
+                <div class="alert-custom">{{ error }}</div>
+                {% endif %}
+                <div class="field">
+                    <label for="username">Usuário</label>
+                    <input type="text" id="username" name="username" placeholder="Digite seu usuário" required>
+                </div>
+                <div class="field">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+                </div>
+                <button class="btn-main" type="submit" style="width:100%;">Entrar agora</button>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tera Copy{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block head %}{% endblock %}
+</head>
+<body>
+{% if session.get('user_id') %}
+<div class="app-shell">
+    <aside class="sidebar">
+        <div style="display:flex;flex-direction:column;height:100%;">
+            <div class="brand-box">
+                <img src="/static/logo.png" alt="Tera Copy">
+                <div>
+                    <div class="brand-kicker">Área de membros</div>
+                    <div class="brand-title">Tera Copy</div>
+                    <div class="brand-subtitle">Copys, módulos e aulas em um só lugar</div>
+                </div>
+            </div>
+
+            <div class="side-section">
+                <div class="side-label">Navegação</div>
+                <nav class="side-nav">
+                    <a class="side-link {% if request_path == '/dashboard' %}active{% endif %}" href="/dashboard">
+                        <div class="side-icon">🏠</div>
+                        <div>
+                            <strong>Início</strong>
+                            <small>Visão geral do curso</small>
+                        </div>
+                    </a>
+                    <a class="side-link {% if '/courses/' in request_path and '/edit/' not in request_path %}active{% endif %}" href="/dashboard">
+                        <div class="side-icon">🎓</div>
+                        <div>
+                            <strong>Módulos</strong>
+                            <small>Organização das aulas</small>
+                        </div>
+                    </a>
+                    <a class="side-link {% if '/courses/create' in request_path %}active{% endif %}" href="/courses/create">
+                        <div class="side-icon">➕</div>
+                        <div>
+                            <strong>Novo curso</strong>
+                            <small>Crie uma nova estrutura</small>
+                        </div>
+                    </a>
+                    <a class="side-link {% if '/logo' in request_path %}active{% endif %}" href="/logo">
+                        <div class="side-icon">🖼️</div>
+                        <div>
+                            <strong>Identidade</strong>
+                            <small>Troque o logo da área</small>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="pill-note">
+                    <strong>Ambiente profissional</strong>
+                    Organize o curso, destaque os módulos e entregue uma experiência premium ao aluno.
+                </div>
+                <div style="margin-top:12px;display:flex;gap:10px;">
+                    <a class="btn-ghost" href="/logout" style="width:100%;">Sair</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="content-wrap">
+        <div class="mobile-topbar">
+            <div class="mobile-logo">
+                <img src="/static/logo.png" alt="Tera Copy">
+                <div>
+                    <strong>Tera Copy</strong>
+                    <div style="color:var(--muted);font-size:13px;">Área de membros</div>
+                </div>
+            </div>
+            <a class="btn-ghost" href="/logout">Sair</a>
+        </div>
+        {% block content %}{% endblock %}
+    </main>
+</div>
+{% else %}
+{% block auth_content %}{% endblock %}
+{% endif %}
+</body>
+</html>

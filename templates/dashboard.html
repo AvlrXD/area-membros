@@ -1,0 +1,120 @@
+{% extends 'layout.html' %}
+{% block title %}Dashboard • Tera Copy{% endblock %}
+{% block content %}
+<div class="topbar">
+    <div>
+        <h1>Área de membros profissional</h1>
+        <p>Organize o Tera Copy com uma apresentação premium, módulos separados e uma vitrine forte para o aluno entrar e visualizar exatamente tudo o que vai consumir.</p>
+    </div>
+    <div class="topbar-actions">
+        <a href="/courses/create" class="btn-main">Novo curso</a>
+        <a href="/logo" class="btn-ghost">Trocar logo</a>
+    </div>
+</div>
+
+<section class="hero-card">
+    <div class="hero-grid">
+        <div>
+            <span class="hero-kicker">Entrega premium para o aluno</span>
+            <h2>Quando o aluno entrar, o conteúdo já precisa parecer valioso.</h2>
+            <p>A área foi organizada para destacar seus módulos logo de cara, deixar as aulas separadas, valorizar os vídeos do YouTube e dar uma sensação de produto bem construído, não de painel improvisado.</p>
+            <div class="hero-stats">
+                <div class="stat-chip">
+                    <span>Cursos</span>
+                    <strong>{{ courses|length }}</strong>
+                </div>
+                <div class="stat-chip">
+                    <span>Visual</span>
+                    <strong>Premium</strong>
+                </div>
+                <div class="stat-chip">
+                    <span>Experiência</span>
+                    <strong>Mobile + Desktop</strong>
+                </div>
+            </div>
+        </div>
+        <div class="hero-panel">
+            <div class="hero-panel-title">Estrutura pensada para conversão e retenção</div>
+            <div class="progress-bar"><span></span></div>
+            <div class="hero-list">
+                <div class="hero-list-item">Aulas visualmente separadas e fáceis de consumir</div>
+                <div class="hero-list-item">Cards e blocos com cara de plataforma premium</div>
+                <div class="hero-list-item">Organização clara para o aluno chegar e navegar</div>
+                <div class="hero-list-item">Formulários de gestão mais bonitos para você editar</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="grid-2">
+    <section class="panel">
+        <div class="panel-header">
+            <div>
+                <h2 class="panel-title">Cursos disponíveis</h2>
+                <p class="panel-subtitle">Escolha um curso para abrir os módulos e visualizar cada aula separadamente.</p>
+            </div>
+        </div>
+
+        {% if courses %}
+        <div class="course-grid">
+            {% for course in courses %}
+            <article class="course-card">
+                <div class="course-cover">
+                    {% if course['cover_image'] %}
+                    <img src="/static/{{ course['cover_image'] }}" alt="{{ course['title'] }}">
+                    {% else %}
+                    <div style="width:100%;height:100%;display:grid;place-items:center;font-size:42px;font-weight:900;">TC</div>
+                    {% endif %}
+                </div>
+                <div class="course-body">
+                    <span class="badge-inline">Curso ativo</span>
+                    <h3>{{ course['title'] }}</h3>
+                    <p>{{ course['description'] if course['description'] else 'Esse curso ainda não recebeu uma descrição. Adicione um texto forte para aumentar percepção de valor.' }}</p>
+                    <div class="course-actions">
+                        <a href="/courses/{{ course['id'] }}" class="btn-main">Abrir módulos</a>
+                        <a href="/courses/edit/{{ course['id'] }}" class="btn-ghost">Editar</a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <strong>Nenhum curso criado ainda</strong>
+            Crie o primeiro curso para começar a estruturar seus módulos, imagens e vídeos.
+            <div style="margin-top:18px;"><a class="btn-main" href="/courses/create">Criar primeiro curso</a></div>
+        </div>
+        {% endif %}
+    </section>
+
+    <aside class="panel">
+        <div class="panel-header">
+            <div>
+                <h2 class="panel-title">Ações rápidas</h2>
+                <p class="panel-subtitle">Atalhos para manter a área visualmente forte.</p>
+            </div>
+        </div>
+        <div class="quick-actions">
+            <div class="quick-action">
+                <strong>Crie sua esteira de conteúdo</strong>
+                <p>Monte o curso principal e depois entre em cada curso para adicionar módulos e vídeos.</p>
+                <a class="btn-soft" href="/courses/create">Criar curso</a>
+            </div>
+            <div class="quick-action">
+                <strong>Troque a identidade visual</strong>
+                <p>Atualize o logo da área para alinhar com a marca e deixar tudo mais profissional.</p>
+                <a class="btn-soft" href="/logo">Atualizar logo</a>
+            </div>
+            <div class="quick-action">
+                <strong>Edite o curso atual</strong>
+                <p>Refine capa, descrição e estrutura para aumentar a percepção de produto premium.</p>
+                {% if courses %}
+                <a class="btn-soft" href="/courses/edit/{{ courses[0]['id'] }}">Editar primeiro curso</a>
+                {% else %}
+                <span class="mini-meta">Crie um curso para liberar essa opção.</span>
+                {% endif %}
+            </div>
+        </div>
+    </aside>
+</div>
+{% endblock %}

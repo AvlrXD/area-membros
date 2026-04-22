@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block title %}Atualizar logo • Tera Copy{% endblock %}
+{% block content %}
+<div class="form-shell">
+    <div class="topbar" style="margin-bottom:20px;">
+        <div>
+            <h1>Atualizar identidade visual</h1>
+            <p>Troque o logo da área para alinhar a apresentação do curso com a sua marca e deixar o ambiente ainda mais profissional.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <form method="POST" enctype="multipart/form-data" class="form-grid">
+            <div>
+                <label style="display:block;margin-bottom:10px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);">Logo atual</label>
+                <div class="current-image">
+                    <img src="{{ logo }}" alt="Logo atual">
+                </div>
+            </div>
+            <div class="field">
+                <label for="logo">Novo logo</label>
+                <input type="file" id="logo" name="logo" accept="image/*" required>
+                <div class="file-tip">Prefira um PNG limpo para o resultado ficar melhor no topo e na sidebar.</div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-main">Atualizar logo</button>
+                <a href="/dashboard" class="btn-ghost">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

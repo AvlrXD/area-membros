@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+{% block title %}{% if module %}Editar aula{% else %}Nova aula{% endif %} • Tera Copy{% endblock %}
+{% block content %}
+<div class="form-shell">
+    <div class="topbar" style="margin-bottom:20px;">
+        <div>
+            <h1>{% if module %}Editar aula{% else %}Criar nova aula{% endif %}</h1>
+            <p>Crie uma aula visualmente forte, com imagem, resumo claro e vídeo do YouTube incorporado para o aluno consumir direto na plataforma.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <form method="POST" enctype="multipart/form-data" class="form-grid">
+            <div class="field">
+                <label for="title">Título da aula</label>
+                <input type="text" id="title" name="title" value="{{ module['title'] if module else '' }}" placeholder="Ex.: Aula 01 • Fundamentos da copy" required>
+            </div>
+
+            <div class="field">
+                <label for="content">Descrição / conteúdo</label>
+                <textarea id="content" name="content" placeholder="Explique o que essa aula entrega, os pontos principais e o direcionamento estratégico.">{{ module['content'] if module else '' }}</textarea>
+            </div>
+
+            <div class="field">
+                <label for="youtube_url">Link do vídeo no YouTube</label>
+                <input type="url" id="youtube_url" name="youtube_url" value="{{ module['youtube_url'] if module else '' }}" placeholder="https://www.youtube.com/watch?v=...">
+                <div class="file-tip">O vídeo será incorporado direto na aula quando o link estiver correto.</div>
+            </div>
+
+            <div class="field">
+                <label for="image">Imagem de destaque</label>
+                {% if module and module['image_path'] %}
+                <div class="current-image" style="margin-bottom:14px;">
+                    <img src="/static/{{ module['image_path'] }}" alt="Imagem atual">
+                </div>
+                {% endif %}
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+
+            {% if module and module['youtube_url'] %}
+            {% set vid = module['youtube_url']|youtube_embed %}
+            {% if vid %}
+            <div>
+                <label style="display:block;margin-bottom:10px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);">Prévia do vídeo</label>
+                <div class="video-box">
+                    <div class="ratio">
+                        <iframe src="https://www.youtube.com/embed/{{ vid }}" title="Prévia do vídeo" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+
+            <div class="form-actions">
+                <button type="submit" class="btn-main">Salvar aula</button>
+                <a href="/courses/{{ course_id }}" class="btn-ghost">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
