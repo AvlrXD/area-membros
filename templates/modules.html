@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block title %}Módulos - {{ course['title'] }}{% endblock %}
+
+{% block content %}
+<h3 class="mb-3">{{ course['title'] }} - Módulos</h3>
+<div class="mb-3">
+    <a href="/modules/create/{{ course['id'] }}" class="btn btn-success">Adicionar módulo</a>
+    <a href="/dashboard" class="btn btn-secondary">Voltar</a>
+</div>
+{% if modules %}
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Imagem</th>
+        <th>Vídeo</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for module in modules %}
+      <tr>
+        <td data-label="Título">{{ module['title'] }}</td>
+        <td data-label="Imagem">
+          {% if module['image_path'] %}
+            <img src="/static/{{ module['image_path'] }}" alt="Imagem" style="height: 50px;">
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td data-label="Vídeo">
+          {% if module['youtube_url'] %}
+            <a href="{{ module['youtube_url'] }}" target="_blank">Ver vídeo</a>
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td data-label="Ações">
+          <a href="/modules/edit/{{ module['id'] }}" class="btn btn-secondary btn-sm">Editar</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p>Nenhum módulo adicionado ainda.</p>
+{% endif %}
+{% endblock %}
